@@ -7,7 +7,9 @@
 
         <ul>
         @foreach ($posts as $post)
-          <li>{{$post->title}}</li>
+          <li>{{$post->title}}
+            <a class="btn btn-primary" href="{{route('posts.show', $post)}}">Visualizza</a>
+          </li>
         @endforeach
         </ul>
       </div>
