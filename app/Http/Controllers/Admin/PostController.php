@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Post;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\SendNewMail;
+use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -50,10 +52,12 @@ class PostController extends Controller
       $new_post->content = $data['content'];
       $new_post->user_id = Auth::id();
 
-      $path = $request->file('image_path')->store('public');
+      $path = $request->file('image_path')->store('images', 'public');
       $new_post->image_path = $path;
 
       $new_post->save();
+
+      Mail::to($new_post->user->email)->send(new SendNewMail());
 
       return redirect()->route('posts.show', $new_post);
     }
