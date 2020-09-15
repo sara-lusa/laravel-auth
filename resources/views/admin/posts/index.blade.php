@@ -12,6 +12,8 @@
           </li>
         @endforeach
         </ul>
+
+        <a class="btn btn-primary" href="{{route('admin.posts.create')}}">Crea un post</a>
       </div>
     </div>
   </div>

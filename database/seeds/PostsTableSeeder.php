@@ -15,8 +15,8 @@ class PostsTableSeeder extends Seeder
     {
       for ($i=0; $i < 10; $i++) {
         $new_post = new Post();
-        $new_post->title = $faker->word();
-        $new_post->content = $faker->sentence();
+        $new_post->title = $faker->word;
+        $new_post->content = $faker->paragraph();
         $new_post->user_id = 1;
         $new_post->save();
       }

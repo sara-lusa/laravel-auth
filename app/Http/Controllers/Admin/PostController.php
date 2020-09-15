@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -16,6 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
+
       $posts = Post::all();
       $users = User::all();
       return view('admin.posts.index', compact('posts', 'users'));
@@ -28,7 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+      return view('admin.posts.create');
     }
 
     /**
@@ -37,9 +39,23 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
-        //
+
+      $data = $request->all();
+      // dd($data);
+
+      $new_post = new Post();
+      $new_post->title = $data['title'];
+      $new_post->content = $data['content'];
+      $new_post->user_id = Auth::id();
+
+      $path = $request->file('image_path')->store('public');
+      $new_post->image_path = $path;
+
+      $new_post->save();
+
+      return redirect()->route('posts.show', $new_post);
     }
 
     /**
